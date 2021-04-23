@@ -19,4 +19,6 @@ To execute the program, open command prompt and type the following commands in t
 1) `cd mypath`
 2) `python transpose_data_user_input.py`
 
-You're all set! The program is now running on your command prompt.
+You're all set! The program is now running on your command prompt. Follow the instructions from the program to ensure it properly analyzes your data.
+
+If you would not like to install Python, and are on a Windows device, you can download the executable file from the repository and run it. You will not be able to make any changes to the code of the executable if you choose this method.
