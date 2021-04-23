@@ -12,8 +12,6 @@ from openpyxl.reader.excel import load_workbook, InvalidFileException
 import scipy
 from scipy import stats
 
-#TODO: Use os.path() often to make file reading and writing same as on mac and windows.
-
 #------------------------------------------------------------------
 #------------------------HELPERFUNCTIONS---------------------------
 #------------------------------------------------------------------
