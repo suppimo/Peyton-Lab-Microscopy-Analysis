@@ -1,0 +1,10 @@
+os
+itertools
+pandas
+numpy
+seaborn
+matplotlib
+xlrd
+xlsxwriter
+openpyxl
+scipy
