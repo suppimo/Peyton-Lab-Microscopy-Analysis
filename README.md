@@ -10,7 +10,9 @@ How to use this tool if you do not have Python 3.8 installed:
 4) Put all of your raw data .csv files in the same folder. 
 
 Your files are now prepped and ready to execute.
-First, obtain the full path of myfolder and copy it. For example, it my be: mypc\Downloads\myfolder We will refer to the full path as "mypath"
+First, obtain the full path of myfolder and copy it. 
+  - For example, it might be: mypc\Downloads\myfolder 
+  - We will refer to the full path as "mypath"
 To execute the program, open command prompt and type the following commands in the following order:
 
 1) cd - mypath
