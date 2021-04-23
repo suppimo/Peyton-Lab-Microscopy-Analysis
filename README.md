@@ -16,7 +16,7 @@ First, obtain the full path of myfolder and copy it.
 
 To execute the program, open command prompt and type the following commands in the following order:
 
-1) `cd - mypath1
-2) `python transpose_data_user_input.py1
+1) `cd - mypath`
+2) `python transpose_data_user_input.py`
 
 You're all set! The program is now running on your command prompt.
