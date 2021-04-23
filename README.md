@@ -13,9 +13,10 @@ Your files are now prepped and ready to execute.
 First, obtain the full path of myfolder and copy it. 
   - For example, it might be: mypc\Downloads\myfolder 
   - We will refer to the full path as "mypath"
+
 To execute the program, open command prompt and type the following commands in the following order:
 
-1) cd - mypath
-2) python transpose_data_user_input.py
+1) `cd - mypath1
+2) `python transpose_data_user_input.py1
 
 You're all set! The program is now running on your command prompt.
