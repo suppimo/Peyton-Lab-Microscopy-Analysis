@@ -471,7 +471,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
 
     #Step 6: Plot Dot Plots
     for f in fluoros:
-        g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True)
+        g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
         plt.title(f)
         plt.show()
 
