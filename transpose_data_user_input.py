@@ -27,7 +27,7 @@ def copyRange(startCol, startRow, endCol, endRow, sheet):
             rowSelected.append(sheet.cell(row = i, column = j).value)
         #Adds the RowSelected List and nests inside the rangeSelected
         rangeSelected.append(rowSelected)
- 
+
     return rangeSelected
 
 
@@ -67,7 +67,6 @@ def get_user_dict(conditions, timepoints, fluoros, xls, c_tp_list = None):
                 #user_dict = {"TCPS" : {"TCPS Day 1" : dataframe tcps_d1}, "RGD" : {"RGD Day 1" : df rgd_d1}}
                 temp_dic[copy] = pd.read_excel(xls, sheet_name = copy)#TODO: Should this be c_tp?
                 user_dict[c] = temp_dic
-
 
     return user_dict
 
@@ -133,8 +132,6 @@ def user_input():
     #choose only the csv files
     files_csv = [f for f in files if f[-3:] == 'csv']
 
-
-    #TODO: Instruct user where to put raw data files
     print("This tool takes raw data from an ImageJ mean fluorescence intensity analysis, ")
     print("transposes it, and generates correlative graphs from the given data. \n") 
     print("There are TWO important requirements to check for this program to function properly: \n")
@@ -152,7 +149,6 @@ def user_input():
     print("with an intensity greater than 2 standard deviations from the mean. Thus, data points with values\n")
     print("greater than 2 standard deviations from the mean intensity will not be plotted.\n")
     print("However, these data points are only excluded for graphing. They remain in the excel output of this program.")
-
 
     #Name
     name = input("Please enter your name: ")
@@ -208,7 +204,6 @@ def user_input():
     return name, date_of_experiment, timepoints, n_timepoints, conditions, n_conditions, fluorophores, n_fluorophores
 
 def load_files(name, date_of_experiment):
-    #TODO: Make sure this works for ALL operating systems!
     file_location = os.getcwd() 
     file_name = f'{file_location}_{name}_{date_of_experiment}_compiled.xlsx'
 
@@ -289,6 +284,7 @@ def transpose_data(file_name, file_location, name, date_of_experiment, condition
 
     return save_name, n, dic, c_tp_list
 
+
 def dump_to_template(fname, n):
     """
     Dumps the transposed intermediate
@@ -354,8 +350,6 @@ def generate_graphs(fname, fluoros, tps, conditions):
     dot plots and scatter plots across all conditions,
     fluorophores, and timepoints
 
-    Loops through dic with conds and c_tp_list
-
     Extracts Data Frames from dic = get_user_dict(c_list, timepoints, fluorophores, xls, c_tp_list)
 
     df = dic[condition][cd_tp]
@@ -373,9 +367,6 @@ def generate_graphs(fname, fluoros, tps, conditions):
     #Step 1: Load the tranposed file
     #Read Transposed Intermediate excel
     #Returns a dictionary - the keys are the sheet names, and the values are the sheets as dataframes.
-
-    #TODO: This has to be changed to the transposed intermediate
-    #Need to move transposed intermediate to the cwd, or simply return it from the appropriate function
     df_dic = pd.read_excel(fname, sheet_name = None)
 
     xls = pd.ExcelFile(fname)
@@ -434,8 +425,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
             #lmplot == scatter plot with trendline
             for cond in sheet_conds:
                 for pair in scatter_list:    
-                    g = sns.lmplot(x = pair[1], y = pair[0], hue = 'Timepoint', data = pd.concat(plot_dic[cond]), 
-                    ci = None)#, col = f'{cond}')
+                    g = sns.lmplot(x = pair[1], y = pair[0], hue = 'Timepoint', data = pd.concat(plot_dic[cond]), ci = None)
                     plt.title(cond)
                     plt.show()
             finished = True
@@ -445,7 +435,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
             for cond in sheet_conds:
                 for pair in scatter_list:    
                     g = sns.relplot(x = pair[1], y = pair[0], hue = 'Timepoint', 
-                    data = pd.concat(plot_dic[cond]), kind = 'scatter')#, col = f'{cond}')
+                    data = pd.concat(plot_dic[cond]), kind = 'scatter')
                     plt.title(cond)
                     plt.show()
             finished = True
@@ -468,12 +458,30 @@ def generate_graphs(fname, fluoros, tps, conditions):
             dotplot_df = pd.concat([dotplot_df, cond_df])
 
     #Step 6: Plot Dot Plots
-    for f in fluoros:
-        g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
-        plt.title(f)
-        plt.show()
-
-
+    print("Dot plots to be plotted: ")
+    for f in fluoros: 
+        print(f"{f}\n")
+    finished = False
+    while not(finished):
+        answer = input("Would you like a box plot over the dot plots? Answer Y or N: ")
+        if answer.upper() == "Y":
+            for f in fluoros:
+                g = sns.boxplot(x="Condition", y=f, data=dotplot_df, hue = 'Timepoint')        
+                g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
+                plt.title(f)
+                plt.show()
+            finished = True
+            break
+        if answer.upper() == "N":
+            for f in fluoros:
+                g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
+                plt.title(f)
+                plt.show()
+            finished = True
+            break
+        else:
+            print("You did not type Y or N. Please reenter. \n")
+    
     pass
 
 
