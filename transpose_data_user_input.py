@@ -70,6 +70,7 @@ def get_user_dict(conditions, timepoints, fluoros, xls, c_tp_list = None):
 
     return user_dict
 
+#Parse the sheetnames from an excel
 def parse_sheetnames(xls):
     #List of conditions from sheetnames
     c_list = []
@@ -102,6 +103,7 @@ def parse_sheetnames(xls):
 
     return c_list, tp_list, c_tp_list
 
+#Get the longest dataframe from a list of dataframes
 def get_longest_df(df_list):
     length = 0
     for i in range(len(df_list)):
@@ -113,8 +115,7 @@ def get_longest_df(df_list):
 #-----------------------------END HELPER FUNCTIONS-----------------------
 #------------------------------------------------------------------------
 
-#Step 1: Read TCPS, Matrigel, RGD, Lung, BM - Day 1, 7, 15 data
-#This is the step where Django would be needed for Hyuna to upload
+#Step 0: Take user input
 def user_input():
     """
     Prints program instructions and requirements.
@@ -203,6 +204,7 @@ def user_input():
 
     return name, date_of_experiment, timepoints, n_timepoints, conditions, n_conditions, fluorophores, n_fluorophores
 
+#Step 1: Read TCPS, Matrigel, RGD, Lung, BM - Day 1, 7, 15 data
 def load_files(name, date_of_experiment):
     file_location = os.getcwd() 
     file_name = f'{file_location}_{name}_{date_of_experiment}_compiled.xlsx'
@@ -284,7 +286,7 @@ def transpose_data(file_name, file_location, name, date_of_experiment, condition
 
     return save_name, n, dic, c_tp_list
 
-
+#Step 3: Dump all transposed data to the desired template
 def dump_to_template(fname, n):
     """
     Dumps the transposed intermediate
@@ -344,6 +346,7 @@ def dump_to_template(fname, n):
     
     return wb
 
+#Step 4: Generate graphs
 def generate_graphs(fname, fluoros, tps, conditions):
     """
     Takes transposed data and generates all sets of 
@@ -458,7 +461,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
             dotplot_df = pd.concat([dotplot_df, cond_df])
 
     #Step 6: Plot Dot Plots
-    print("Dot plots to be plotted: ")
+    print("\nDot plots to be plotted: ")
     for f in fluoros: 
         print(f"{f}\n")
     finished = False
