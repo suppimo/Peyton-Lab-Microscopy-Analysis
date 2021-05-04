@@ -149,7 +149,7 @@ def user_input():
     print("A statistical outlier has been defined as, for intensity data for one fluorophore, a data point\n")
     print("with an intensity greater than 2 standard deviations from the mean. Thus, data points with values\n")
     print("greater than 2 standard deviations from the mean intensity will not be plotted.\n")
-    print("However, these data points are only excluded for graphing. They remain in the excel output of this program.")
+    print("However, these data points are only excluded for graphing. They remain in the excel output of this program.\n")
 
     #Name
     name = input("Please enter your name: ")
