@@ -145,7 +145,7 @@ def user_input():
     print("Otherwise, it is not possible to tell which file belongs to which condition and timepoint. \n")
     print("Example sheetnames: 'Matrigel Day 1', 'MG D1', 'RGD D4', 'Lung Day 7', etc. \n")
     print("This is to ensure the program can correctly identify each file's condition & timepoint. \n")
-    print("Finally, this program automatically does not plot statistical outliers.\n")
+    print("Finally, this program can automatically filter statistical outliers from plots.\n")
     print("A statistical outlier has been defined as, for intensity data for one fluorophore, a data point\n")
     print("with an intensity greater than 2 standard deviations from the mean. Thus, data points with values\n")
     print("greater than 2 standard deviations from the mean intensity will not be plotted.\n")
@@ -398,26 +398,44 @@ def generate_graphs(fname, fluoros, tps, conditions):
                 plot_dic[cond].append(df_dic[keys[i]])
     
     #Step 3: Remove statistical outliers and add Timepoint column to each dataframe
-    #For each condition in the dictionary,
-    for cond in plot_dic:
-        #Get the list of sheets for that condition
-        sheets_list = plot_dic[cond]
-        #for each df in a condition,
-        for sheet_df in sheets_list:
-            #Get column names
-            columns = list(sheet_df.columns)
-            #For each column name
-            for col in columns:
-                #Filter outliers by stddev in each column
-                mean = sheet_df[col].mean()
-                sd = sheet_df[col].std()
-                sheet_df = sheet_df[(np.abs(sheet_df[col] - mean) < 2*sd )]
-        #TODO: Add timepoint and drop "Unnamed: 0" column for each df in plot_dic
-        for i in range(n):
-            df = sheets_list[i]
-            df['Timepoint'] = tps[i]
-            #Remove unnamed column
-            df.drop('Unnamed: 0', inplace=True, axis=1)
+    #FILTER OUTLIERS OR NOT:
+    finished = False
+    while not(finished):
+        answer = input("Would you like to filter outliers from your plots?\nOutliers are values >2 SD from the mean. Answer Y or N: ")
+        if answer.upper() == "Y":
+            for cond in plot_dic:
+                #Get the list of sheets for that condition
+                sheets_list = plot_dic[cond]
+                #for each df in a condition,
+                for sheet_df in sheets_list:
+                    #Get column names
+                    columns = list(sheet_df.columns)
+                    #For each column name
+                    for col in columns:
+                        #Filter outliers by stddev in each column
+                        mean = sheet_df[col].mean()
+                        sd = sheet_df[col].std()
+                        sheet_df = sheet_df[(np.abs(sheet_df[col] - mean) < 2*sd )]
+                for i in range(n):
+                    df = sheets_list[i]
+                    df['Timepoint'] = tps[i]
+                    #Remove unnamed column
+                    df.drop('Unnamed: 0', inplace=True, axis=1)
+            finished = True
+            break
+        if answer.upper() == "N":
+            for cond in plot_dic:
+                #Get the list of sheets for that condition
+                sheets_list = plot_dic[cond]
+                for i in range(n):
+                    df = sheets_list[i]
+                    df['Timepoint'] = tps[i]
+                    #Remove unnamed column
+                    df.drop('Unnamed: 0', inplace=True, axis=1)
+            finished = True
+            break
+        else:
+            print("You did not type Y or N. Please reenter. \n")
 
     #Step 4: Plot Scatter plots with or without trendline
     #TREND LINE OR NOT:
@@ -464,6 +482,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
     print("\nDot plots to be plotted: ")
     for f in fluoros: 
         print(f"{f}\n")
+    #ADD DOTPLOT OR NOT:
     finished = False
     while not(finished):
         answer = input("Would you like a box plot over the dot plots? Answer Y or N: ")
@@ -497,6 +516,5 @@ fname, n, dic, c_tp_list = transpose_data(file_name, file_location, name, date_o
 #Format Transposed Data
 dump_to_template(fname, n)
 #Graph Transposed Data
-#generate_graphs(dic, conds, c_tp_list)
 generate_graphs(fname, fluoros, tps, conds)
 print('All Done!')
