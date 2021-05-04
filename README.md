@@ -1,5 +1,5 @@
 # Peyton-Lab-Microscopy-Analysis
-A tool that will take intensity data, format it by condition, timepoint, and fluorophore, and generate correlative graphs.
+PeytonLab_DataCruncher_V1.py is a program that will take intensity data, format it by condition, timepoint, and fluorophore, and generate correlative graphs.
 
 You will see twelve .csv files uploaded to this repository. This is test/example data, if you wish to test the program but do not have data.
 
