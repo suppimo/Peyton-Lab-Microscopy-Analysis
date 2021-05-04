@@ -3,6 +3,17 @@ A tool that will take intensity data, format it by condition, timepoint, and flu
 
 You will see twelve .csv files uploaded to this repository. This is test/example data, if you wish to test the program but do not have data.
 
+If already have Python 3.8 installed, please ensure you have installed the following libraries:
+  - Openpyxl
+  - NumPy
+  - Matplotlib
+  - Seaborn
+  - Pandas
+  - SciPy
+  - Itertools
+  - xlrd
+  - xlsxwriter
+
 How to use this tool if you do not have Python 3.8 installed:
 
 1) Install Anaconda. This is a Python distribution that will automatically install Python, a development environment, and all necessary libraries for this program.
