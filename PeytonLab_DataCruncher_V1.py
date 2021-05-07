@@ -446,7 +446,12 @@ def generate_graphs(fname, fluoros, tps, conditions):
             #lmplot == scatter plot with trendline
             for cond in sheet_conds:
                 for pair in scatter_list:    
-                    g = sns.lmplot(x = pair[1], y = pair[0], hue = 'Timepoint', data = pd.concat(plot_dic[cond]), ci = None)
+                    kwargs  =   {'edgecolor':"white"}
+                    g = sns.lmplot(x = pair[1], y = pair[0], hue = 'Timepoint', data = pd.concat(plot_dic[cond]), ci = None, scatter_kws = kwargs)
+                    plt.xlabel(pair[1] + " Intensity")
+                    plt.ylabel(pair[0] + ' Intensity')
+                    plt.xlim(0, None)
+                    plt.ylim(0, None)
                     plt.title(cond)
                     plt.show()
             finished = True
@@ -457,6 +462,10 @@ def generate_graphs(fname, fluoros, tps, conditions):
                 for pair in scatter_list:    
                     g = sns.relplot(x = pair[1], y = pair[0], hue = 'Timepoint', 
                     data = pd.concat(plot_dic[cond]), kind = 'scatter')
+                    plt.xlabel(pair[1] + " Intensity")
+                    plt.ylabel(pair[0] + ' Intensity')
+                    plt.xlim(0, None)
+                    plt.ylim(0, None)
                     plt.title(cond)
                     plt.show()
             finished = True
@@ -482,21 +491,43 @@ def generate_graphs(fname, fluoros, tps, conditions):
     print("\nDot plots to be plotted: ")
     for f in fluoros: 
         print(f"{f}\n")
-    #ADD DOTPLOT OR NOT:
+    #ADD BOXPLOT OR VIOLINPLOT OR NOT:
     finished = False
     while not(finished):
-        answer = input("Would you like a box plot over the dot plots? Answer Y or N: ")
+        answer = input("Would you like a box plot or violin plot overlaid on the dot plots? Answer Y or N: ")
         if answer.upper() == "Y":
-            for f in fluoros:
-                g = sns.boxplot(x="Condition", y=f, data=dotplot_df, hue = 'Timepoint')        
-                g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
-                plt.title(f)
-                plt.show()
+            finished2 = False
+            while not(finished2):
+                answer2 = input("Please enter box for box plot, and enter violin for violin plot: ")
+                if answer2.lower() == "box":
+                    for f in fluoros:
+                        g = sns.boxplot(x ="Condition", y = f, data = dotplot_df, hue = 'Timepoint')        
+                        g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
+                        plt.ylim(0, None)
+                        plt.ylabel(f + " Intensity")
+                        plt.title(f)
+                        plt.show()
+                    finished2 = True
+                    break
+                if answer2.lower() == "violin":
+                    for f in fluoros:
+                        g = sns.violinplot(x ="Condition", y = f, data = dotplot_df, hue = 'Timepoint')        
+                        g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
+                        plt.ylim(0, None)
+                        plt.ylabel(f + " Intensity")
+                        plt.title(f)
+                        plt.show()      
+                    finished2 = True
+                    break
+                else: 
+                    print("You did not type box or violin. Please reenter. \n")
             finished = True
             break
         if answer.upper() == "N":
             for f in fluoros:
-                g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True)
+                g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
+                plt.ylim(0, None)
+                plt.ylabel(f + " Intensity")
                 plt.title(f)
                 plt.show()
             finished = True
