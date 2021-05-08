@@ -448,8 +448,8 @@ def generate_graphs(fname, fluoros, tps, conditions):
                 for pair in scatter_list:    
                     kwargs  =   {'edgecolor':"white"}
                     g = sns.lmplot(x = pair[1], y = pair[0], hue = 'Timepoint', data = pd.concat(plot_dic[cond]), ci = None, scatter_kws = kwargs)
-                    plt.xlabel(pair[1] + " Intensity")
-                    plt.ylabel(pair[0] + ' Intensity')
+                    plt.xlabel(pair[1] + " Intensity (AU)")
+                    plt.ylabel(pair[0] + ' Intensity (AU)')
                     plt.xlim(0, None)
                     plt.ylim(0, None)
                     plt.title(cond)
@@ -462,8 +462,8 @@ def generate_graphs(fname, fluoros, tps, conditions):
                 for pair in scatter_list:    
                     g = sns.relplot(x = pair[1], y = pair[0], hue = 'Timepoint', 
                     data = pd.concat(plot_dic[cond]), kind = 'scatter')
-                    plt.xlabel(pair[1] + " Intensity")
-                    plt.ylabel(pair[0] + ' Intensity')
+                    plt.xlabel(pair[1] + " Intensity (AU)")
+                    plt.ylabel(pair[0] + ' Intensity (AU)')
                     plt.xlim(0, None)
                     plt.ylim(0, None)
                     plt.title(cond)
@@ -504,7 +504,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
                         g = sns.boxplot(x ="Condition", y = f, data = dotplot_df, hue = 'Timepoint')        
                         g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
                         plt.ylim(0, None)
-                        plt.ylabel(f + " Intensity")
+                        plt.ylabel(f + " Intensity (AU)")
                         plt.title(f)
                         plt.show()
                     finished2 = True
@@ -514,7 +514,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
                         g = sns.violinplot(x ="Condition", y = f, data = dotplot_df, hue = 'Timepoint')        
                         g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
                         plt.ylim(0, None)
-                        plt.ylabel(f + " Intensity")
+                        plt.ylabel(f + " Intensity (AU)")
                         plt.title(f)
                         plt.show()      
                     finished2 = True
@@ -527,7 +527,7 @@ def generate_graphs(fname, fluoros, tps, conditions):
             for f in fluoros:
                 g = sns.stripplot(x = 'Condition', y = f, hue = "Timepoint", data = dotplot_df, jitter = True, dodge = True, edgecolor = 'w', linewidth = 0.5)
                 plt.ylim(0, None)
-                plt.ylabel(f + " Intensity")
+                plt.ylabel(f + " Intensity (AU)")
                 plt.title(f)
                 plt.show()
             finished = True
